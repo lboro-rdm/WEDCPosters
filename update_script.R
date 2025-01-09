@@ -105,16 +105,16 @@ for (i in 1:nrow(article_details)) {
     NA
   }
   
-  hdl <- if (!is.null(citation_data$handle)) {
-    citation_data$handle
+  hdl <- if (!is.null(citation_data$handle) && citation_data$handle != "") {
+    paste0("https://hdl.handle.net/", citation_data$handle)
   } else {
-    NA
+    ""
   }
   
-  doi <- if (!is.null(citation_data$doi)) {
-    citation_data$doi
+  doi <- if (!is.null(citation_data$doi) && citation_data$doi != "") {
+    paste0("https://doi.org/", citation_data$doi)
   } else {
-    NA
+    ""
   }
   
   sort <- if (!is.null(citation_data$tags)) {

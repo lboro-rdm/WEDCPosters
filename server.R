@@ -54,13 +54,18 @@ server <- function(input, output, session) {
     if (!is.null(df) && nrow(df) > 0) {
       # Create formatted strings with zebra stripe classes
       formatted_strings <- sapply(1:nrow(df), function(i) {
+        link <- if (df$hdl[i] != "" && !is.na(df$hdl[i])) {
+          paste0("<a href='", df$hdl[i], "' style='color: #002c3d; text-decoration: underline;' target='_blank' class='hover-underline'>", df$title[i], "</a>")
+        } else if (df$doi[i] != "" && !is.na(df$doi[i])) {
+          paste0("<a href='", df$doi[i], "' style='color: #002c3d; text-decoration: underline;' target='_blank' class='hover-underline'>", df$title[i], "</a>")
+        } else {
+          paste0("<span style='color: #002c3d;'>", df$title[i], "</span>")
+        }
+        
         paste0(
           "<div style='margin-bottom: 10px;'>", # Add bottom margin
-          "<strong><a href='https://hdl.handle.net/", df$hdl[i], 
-          "' style='color: #002c3d; text-decoration: underline;' target='_blank' class='hover-underline'>",
-          df$title[i], "</a></strong>. ", 
-          "<span style='color: #002c3d;'>", df$Author[i], ". (", 
-          df$Year[i], ").</span>",
+          "<strong>", link, "</strong>. ",
+          "<span style='color: #002c3d;'>", df$Author[i], ". (", df$Year[i], ").</span>",
           "</div>"
         )
       })
